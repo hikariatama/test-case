@@ -7,7 +7,7 @@ from urllib.parse import quote_plus
 
 import pytz
 import websockets
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
@@ -146,7 +146,9 @@ async def submit_sensor_payload(request: Request, sensor_data: SensorData):
             status_code=400,
         )
 
-    if sensor_data.datetime < datetime.datetime.now(pytz.UTC) - datetime.timedelta(minutes=5):
+    if sensor_data.datetime < datetime.datetime.now(pytz.UTC) - datetime.timedelta(
+        minutes=5
+    ):
         return JSONResponse(
             {"error": "this payload is too old"},
             status_code=400,
