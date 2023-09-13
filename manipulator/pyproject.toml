@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "manipulator"
+version = "0.1.0"
+description = ""
+authors = ["hikariatama <elusloodus@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.103.1"
+uvicorn = "^0.23.2"
+websockets = "^11.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

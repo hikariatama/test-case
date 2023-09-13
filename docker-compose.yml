@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+    manipulator:
+        container_name: "test-manipulator"
+        build:
+            context: manipulator
+        working_dir: "/usr/src/manipulator"
+        stop_signal: SIGINT
+        restart: unless-stopped
+        hostname: "manipulator"
+        networks:
+            - test-network
+    sensor:
+        build:
+            context: sensor
+        working_dir: "/usr/src/sensor"
+        stop_signal: SIGINT
+        restart: unless-stopped
+        networks:
+            - test-network
+        depends_on:
+            - mongodb
+            - controller
+        deploy:
+            mode: replicated
+            replicas: 1
+    controller:
+        container_name: "test-controller"
+        hostname: "controller"
+        build:
+            context: controller
+        working_dir: "/usr/src/controller"
+        stop_signal: SIGINT
+        restart: unless-stopped
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+        networks:
+            - test-network
+        depends_on:
+            - mongodb
+        ports:
+            - "4082:8000"
+    mongodb:
+        image: mongo
+        container_name: "test-mongodb"
+        restart: unless-stopped
+        networks:
+            - test-network
+        hostname: "mongodb"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+        volumes:
+            - data:/data/db
+        command: mongod --quiet --logpath /dev/null
+
+networks:
+    test-network:
+        driver: bridge
+
+volumes:
+    data:
+        driver: local

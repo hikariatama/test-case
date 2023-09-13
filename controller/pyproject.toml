@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "controller"
+version = "0.1.0"
+description = ""
+authors = ["hikariatama <elusloodus@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.103.1"
+pymongo = "^4.5.0"
+websockets = "^11.0.3"
+uvicorn = "^0.23.2"
+motor = "^3.3.1"
+pytz = "^2023.3.post1"
+python-multipart = "^0.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
