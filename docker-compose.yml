@@ -24,7 +24,7 @@ services:
             - controller
         deploy:
             mode: replicated
-            replicas: 1
+            replicas: 8
     controller:
         container_name: "test-controller"
         hostname: "controller"
